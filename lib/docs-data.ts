@@ -503,7 +503,7 @@ export const DOCS = [
     "slug": "tpm-spoofing",
     "title": "TPM Spoofing Solution",
     "category": "Hardware Solutions",
-    "description": "TPM 2.0 bypass and modification methods for high-factor games like Vanguard and EAC.",
+    "description": "TPM 2.0 identifier management methods. Staff will advise if TPM identifier changes are needed for your configuration.",
     "prev": {
       "label": "Post-Spoof Notes",
       "slug": "post-spoof-notes"
@@ -515,13 +515,189 @@ export const DOCS = [
     "content": [
       {
         "type": "section",
-        "title": "TPM 2.0 Architecture",
-        "body": "Modern anticheats read the hardware endorsement key (EK) and certificates stored inside the discrete or firmware TPM. Our TPM solution randomizes the endorsement credential hierarchy without disabling Windows 11 compatibility."
+        "title": "Overview",
+        "body": "Some configurations may require TPM to be enabled. Staff will advise if this applies to you. There are several ways to change your TPM identifier. The methods that apply to you depend on your motherboard and CPU."
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "Compatibility",
+        "text": "The following conditions allow the TPM serial to change after a BIOS flash: GIGABYTE, MSI, and ASRock motherboards on an Intel CPU. AM4 motherboards with one of the newest BIOS patches that fix certain TPM security issues. To check if this applies to you: enable TPM, then download and run the TPM checker as admin, and send a screenshot of the output in your ticket."
+      },
+      {
+        "type": "link",
+        "href": "mega.nz/PLACEHOLDER-TPM-CHECKER",
+        "label": "Download TPM Checker"
+      },
+      {
+        "type": "image",
+        "src": "/guide/sha_img.png",
+        "alt": "TPM Checker - SHA256 Output"
+      },
+      {
+        "type": "image",
+        "src": "/guide/vulnexploit.png",
+        "alt": "TPM Checker - Detection Output"
+      },
+      {
+        "type": "section",
+        "title": "BIOS Flash Method",
+        "body": "Follow the Flashing BIOS guide. If the SHA256 value (shown in the TPM checker screenshot above) changes after flashing, your TPM has been spoofed."
+      },
+      {
+        "type": "callout",
+        "variant": "tip",
+        "title": "Tip",
+        "text": "Intel users: if available, use your motherboard's BIOS Flashback button - a physical button usually near your USB ports or directly on the motherboard. This gives the highest chance of a successful flash. Make sure the BIOS version you flash to is compatible with your CPU."
+      },
+      {
+        "type": "section",
+        "title": "PowerShell Method (AMD)",
+        "body": "If you are AMD and do not have the BIOS flash method available (e.g. AM5 boards), try this method."
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Important",
+        "text": "This method has a low success rate. If TPM changes do not persist after this, the method did not work for you and you will need a TPM chip."
+      },
+      {
+        "type": "steps",
+        "title": "PowerShell Procedure",
+        "items": [
+          "Open a PowerShell window as Administrator and run the following commands one by one: Clear-TPM, then Disable-TpmAutoProvisioning.",
+          "Restart your PC.",
+          "To verify the method worked, open PowerShell as admin and run: Get-Tpm"
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/guide/powershell.png",
+        "alt": "Get-Tpm Verification Output"
+      },
+      {
+        "type": "section",
+        "title": "Linux TPM Clear Method",
+        "body": "This method may not work on all AMD configurations. On Intel it generally works for 11th gen and newer."
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Important",
+        "text": "AMD users: if the PowerShell method fails, you may need a physical TPM chip. Ask in a ticket for guidance on which one to buy for your motherboard. This method will not work for Intel CPUs below the 11th gen."
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "Before Starting",
+        "text": "Before continuing, save your current TPM serials using the TPM checker and send the screenshot in your ticket."
+      },
+      {
+        "type": "steps",
+        "title": "Step 1 - Prepare the USB",
+        "items": [
+          "Plug in a USB drive.",
+          {
+            "text": "Download Rufus.",
+            "link": {
+              "type": "link",
+              "href": "https://github.com/pbatard/rufus/releases/download/v4.11/rufus-4.11p.exe",
+              "label": "Download Rufus"
+            }
+          },
+          {
+            "text": "Download Linux Mint 22.2.",
+            "link": {
+              "type": "link",
+              "href": "https://pub.linuxmint.io/stable/22.2/linuxmint-22.2-cinnamon-64bit.iso",
+              "label": "Download Linux Mint 22.2"
+            }
+          }
+        ]
+      },
+      {
+        "type": "steps",
+        "title": "Step 2 - Create the Bootable USB",
+        "items": [
+          "Open Rufus.",
+          "Select the Linux Mint ISO.",
+          "Select your USB drive.",
+          "Change Partition Scheme from MBR to GPT.",
+          "It should match the image below. Start the process and wait for it to finish."
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/guide/rufus_img.png",
+        "alt": "Rufus Bootable USB Configuration"
+      },
+      {
+        "type": "steps",
+        "title": "Step 3 - Boot into Linux Mint",
+        "items": [
+          "Restart your PC and enter BIOS/Boot Manager.",
+          "Boot from the USB and select the first option at the top of the menu.",
+          "Once in Linux Mint, open Terminal and run: sudo su",
+          "Add the mint user to sudo: usermod -aG sudo mint",
+          "Restart the PC."
+        ]
+      },
+      {
+        "type": "steps",
+        "title": "Step 4 - Clear TPM in BIOS",
+        "items": [
+          "Enter BIOS.",
+          "Go to Trusted Computing (usually under the Advanced tab).",
+          "Set \"Pending Operation\" to TPM Clear.",
+          "Save and exit with the USB drive as #1 in your boot priority."
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "warning",
+        "title": "Important",
+        "text": "You must boot directly into Linux Mint after clearing TPM. If Windows boots first, you must repeat the TPM clear step."
+      },
+      {
+        "type": "steps",
+        "title": "Step 5 - Run TPM Commands",
+        "items": [
+          "Open Terminal, run sudo su, then copy and paste all 7 commands below at once and press Enter.",
+          "sudo apt update",
+          "sudo apt install -y tpm2-tools openssl",
+          "sudo tpm2_clear",
+          "RAND=$(openssl rand -hex 32)",
+          "sudo tpm2_createprimary -C o -g sha256 -G rsa -q $RAND -c primary.ctx",
+          "sudo tpm2_readpublic -c primary.ctx -f pem -o key.pem",
+          "sudo tpm2_evictcontrol -C o -c primary.ctx 0x81010001"
+        ]
+      },
+      {
+        "type": "callout",
+        "variant": "tip",
+        "title": "Tip",
+        "text": "The last line should output \"Persisted\". If you see errors, do not continue - ask in a ticket."
+      },
+      {
+        "type": "steps",
+        "title": "Step 6 - Finish",
+        "items": [
+          "Shut down the PC.",
+          "Unplug the USB.",
+          "Power on and boot into Windows.",
+          "Plug the USB back in, format it, then unplug it."
+        ]
       },
       {
         "type": "image",
         "src": "/guide/tpm_thumb.png",
-        "alt": "TPM Spoofing"
+        "alt": "tpm.msc Ready for Use"
+      },
+      {
+        "type": "callout",
+        "variant": "info",
+        "title": "Verify",
+        "text": "Check if your TPM serial has changed using the TPM checker and send the new screenshot in your ticket. Then open tpm.msc and verify the Status reads \"Ready for use\". If the status matches the image above, your TPM is spoofed."
       }
     ]
   },
