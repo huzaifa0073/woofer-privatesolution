@@ -3,6 +3,16 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+export type DocLink = {
+  type: 'link'
+  href: string
+  label: string
+}
+
+export type StepItem =
+  | string
+  | { text: string; link: DocLink }
+
 export type DocItem = {
   slug: string
   title: string
@@ -13,9 +23,10 @@ export type DocItem = {
   content: Array<
     | { type: 'callout'; variant: 'info' | 'warning' | 'tip'; title: string; text: string }
     | { type: 'section'; title: string; body: string }
-    | { type: 'steps'; title: string; items: string[] }
+    | { type: 'steps'; title: string; items: StepItem[] }
     | { type: 'image'; src: string; alt: string }
     | { type: 'discord-banner'; url: string; label: string }
+    | DocLink
   >
 }
 
@@ -23,7 +34,32 @@ function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 }
 
-const AUTOUNATTEND_DOWNLOAD_HREF = '/autounattend.xml'
+function stepText(item: StepItem) {
+  return typeof item === 'string' ? item : item.text
+}
+
+function stepLink(item: StepItem) {
+  return typeof item === 'string' ? null : item.link
+}
+
+function DocLinkButton({ href, label, className = '' }: { href: string; label: string; className?: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className={`inline-flex items-center gap-2 rounded-xl bg-accent px-3.5 py-2 text-xs font-bold text-white shadow-[0_0_15px_rgba(45,156,245,0.35)] hover:bg-accent-bright hover:shadow-[0_0_22px_rgba(45,156,245,0.55)] transition-all duration-200 ${className}`}
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+      {label}
+    </a>
+  )
+}
 
 export default function DocView({ doc }: { doc: DocItem }) {
   // Track completed steps per steps-block
@@ -237,7 +273,9 @@ export default function DocView({ doc }: { doc: DocItem }) {
 
                     {/* Step Cards / Timeline */}
                     <div className="flex flex-col gap-4 sm:gap-5">
-                      {block.items.map((stepText, sIdx) => {
+                      {block.items.map((item, sIdx) => {
+                        const text = stepText(item)
+                        const link = stepLink(item)
                         const stepKey = `${idx}-${sIdx}`
                         const isDone = !!completedSteps[stepKey]
 
@@ -291,22 +329,10 @@ export default function DocView({ doc }: { doc: DocItem }) {
                               <p className={`text-sm sm:text-base leading-relaxed transition-colors ${
                                 isDone ? 'text-slate-400 line-through' : 'text-slate-100 font-medium'
                               }`}>
-                                {stepText}
+                                {text}
                               </p>
-                              {stepText.includes('autounattend.xml') && (
-                                <a
-                                  href={AUTOUNATTEND_DOWNLOAD_HREF}
-                                  download="autounattend.xml"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="mt-3 inline-flex items-center gap-2 rounded-xl bg-accent px-3.5 py-2 text-xs font-bold text-white shadow-[0_0_15px_rgba(45,156,245,0.35)] hover:bg-accent-bright hover:shadow-[0_0_22px_rgba(45,156,245,0.55)] transition-all duration-200"
-                                >
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                    <polyline points="7 10 12 15 17 10" />
-                                    <line x1="12" y1="15" x2="12" y2="3" />
-                                  </svg>
-                                  Download autounattend.xml
-                                </a>
+                              {link && (
+                                <DocLinkButton href={link.href} label={link.label} className="mt-3" />
                               )}
                             </div>
                           </div>
@@ -402,6 +428,14 @@ export default function DocView({ doc }: { doc: DocItem }) {
                         {block.label} →
                       </a>
                     </div>
+                  </div>
+                )
+              }
+
+              if (block.type === 'link') {
+                return (
+                  <div key={idx}>
+                    <DocLinkButton href={block.href} label={block.label} />
                   </div>
                 )
               }

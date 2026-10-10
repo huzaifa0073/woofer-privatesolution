@@ -65,7 +65,14 @@ export const DOCS = [
           "Download the official Windows Media Creation Tool (Windows 10 or Windows 11) from Microsoft.",
           "Run the Media Creation Tool and select \"Create installation media (USB flash drive)\".",
           "Select your USB drive (minimum 8GB) and wait for the tool to finish creating the bootable drive.",
-          "Download the automated autounattend.xml debloat file and place it directly into the root of your USB flash drive. This file debloats Windows, creates a clean local admin account, and disables BitLocker.",
+          {
+            "text": "Download the automated autounattend.xml debloat file and place it directly into the root of your USB flash drive. This file debloats Windows, creates a clean local admin account, and disables BitLocker.",
+            "link": {
+              "type": "link",
+              "href": "https://mega.nz/file/47BEFIYQ#ayjjlRsHVNCNxKU0_cYxg357LCPhWAnOo1NZjl_jDRQ",
+              "label": "Download autounattend.xml"
+            }
+          },
           "Go to your motherboard manufacturer website, download your LAN/Ethernet drivers and WLAN drivers, and copy the installers to your USB drive so you have internet immediately upon setup."
         ]
       },
