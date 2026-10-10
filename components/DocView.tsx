@@ -23,6 +23,8 @@ function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 }
 
+const AUTOUNATTEND_DOWNLOAD_HREF = '/autounattend.xml'
+
 export default function DocView({ doc }: { doc: DocItem }) {
   // Track completed steps per steps-block
   const [completedSteps, setCompletedSteps] = useState<Record<string, boolean>>({})
@@ -291,6 +293,21 @@ export default function DocView({ doc }: { doc: DocItem }) {
                               }`}>
                                 {stepText}
                               </p>
+                              {stepText.includes('autounattend.xml') && (
+                                <a
+                                  href={AUTOUNATTEND_DOWNLOAD_HREF}
+                                  download="autounattend.xml"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="mt-3 inline-flex items-center gap-2 rounded-xl bg-accent px-3.5 py-2 text-xs font-bold text-white shadow-[0_0_15px_rgba(45,156,245,0.35)] hover:bg-accent-bright hover:shadow-[0_0_22px_rgba(45,156,245,0.55)] transition-all duration-200"
+                                >
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                  </svg>
+                                  Download autounattend.xml
+                                </a>
+                              )}
                             </div>
                           </div>
                         )
