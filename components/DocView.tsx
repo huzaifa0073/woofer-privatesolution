@@ -24,6 +24,7 @@ export type DocItem = {
     | { type: 'callout'; variant: 'info' | 'warning' | 'tip'; title: string; text: string }
     | { type: 'section'; title: string; body: string }
     | { type: 'steps'; title: string; items: StepItem[] }
+    | { type: 'code'; title?: string; commands: string[] }
     | { type: 'image'; src: string; alt: string }
     | { type: 'discord-banner'; url: string; label: string }
     | DocLink
@@ -65,6 +66,7 @@ export default function DocView({ doc }: { doc: DocItem }) {
   // Track completed steps per steps-block
   const [completedSteps, setCompletedSteps] = useState<Record<string, boolean>>({})
   const [activeModalImage, setActiveModalImage] = useState<{ src: string; alt: string } | null>(null)
+  const [copiedBlock, setCopiedBlock] = useState<string | null>(null)
 
   const toggleStep = (stepKey: string) => {
     setCompletedSteps((prev) => ({
@@ -340,6 +342,52 @@ export default function DocView({ doc }: { doc: DocItem }) {
                       })}
                     </div>
                   </section>
+                )
+              }
+
+              // --- Copyable Code Block ---
+              if (block.type === 'code') {
+                const codeText = block.commands.join('\n')
+                const isCopied = copiedBlock === `code-${idx}`
+                return (
+                  <div
+                    key={idx}
+                    className="rounded-2xl border border-line bg-surface-1/90 backdrop-blur-md overflow-hidden shadow-lg transition-all duration-200 hover:border-accent/30"
+                  >
+                    <div className="flex items-center justify-between border-b border-line bg-surface-2/90 px-4 py-2.5">
+                      <span className="text-xs font-bold text-fg-muted uppercase tracking-wider">
+                        {block.title ?? 'Terminal Commands'}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigator.clipboard?.writeText(codeText)
+                          setCopiedBlock(`code-${idx}`)
+                          setTimeout(() => setCopiedBlock(null), 2000)
+                        }}
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-bold text-white shadow-[0_0_12px_rgba(45,156,245,0.35)] hover:bg-accent-bright transition-colors"
+                      >
+                        {isCopied ? (
+                          <>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                            Copied!
+                          </>
+                        ) : (
+                          <>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <rect x="9" y="9" width="13" height="13" rx="2" />
+                              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                            </svg>
+                            Copy all
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <pre className="max-h-[420px] overflow-auto p-4 text-[13px] sm:text-sm leading-relaxed font-mono text-slate-200 whitespace-pre-wrap break-words">
+{codeText}
+                    </pre>
+                  </div>
                 )
               }
 

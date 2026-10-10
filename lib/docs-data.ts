@@ -662,7 +662,14 @@ export const DOCS = [
         "type": "steps",
         "title": "Step 5 - Run TPM Commands",
         "items": [
-          "Open Terminal, run sudo su, then copy and paste all 7 commands below at once and press Enter.",
+          "Open Terminal, run sudo su.",
+          "Copy all 7 commands, paste them into the terminal, and press Enter."
+        ]
+      },
+      {
+        "type": "code",
+        "title": "Paste all 7 commands",
+        "commands": [
           "sudo apt update",
           "sudo apt install -y tpm2-tools openssl",
           "sudo tpm2_clear",
