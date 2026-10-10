@@ -301,12 +301,17 @@ export const DOCS = [
     },
     "content": [
       {
+        "type": "link",
+        "href": "https://transfer.it/t/M4RoMYwFgJxJ",
+        "label": "Download Loader"
+      },
+      {
         "type": "steps",
         "title": "Prerequisites",
         "items": [
           "Download and install Python 3.11 or later from python.org.",
           "Ensure you check the box \"Add python.exe to PATH\" during installation.",
-          "Download the official Private Solutions Loader from our Discord announcements or client portal.",
+          "Download the latest Private Solutions Loader using the Download Loader button above.",
           "Extract the archive to a clean folder on your desktop."
         ]
       },
