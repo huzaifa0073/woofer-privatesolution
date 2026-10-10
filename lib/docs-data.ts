@@ -526,7 +526,7 @@ export const DOCS = [
       },
       {
         "type": "link",
-        "href": "mega.nz/PLACEHOLDER-TPM-CHECKER",
+        "href": "https://mega.nz/file/AmI2mbCL#u3CUEgrg592OyiuIwGuSwWkx28fzfriTWhOnSvYViIw",
         "label": "Download TPM Checker"
       },
       {
