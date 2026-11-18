@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { DOCS } from '@/lib/docs-data'
+import { DISCORD_INVITE, DOCS, SUPPORT_URL } from '@/lib/docs-data'
 
 const CATEGORIES = [
   { name: 'Getting Started', icon: '🚀' },
@@ -184,7 +184,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           {/* Quick links & Discord CTA */}
           <div className="flex items-center gap-2 sm:gap-3 text-xs font-semibold">
             <a
-              href="https://privatesolution.org/#products"
+              href="https://privatesolution.org/software/"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-1 rounded-xl border border-line bg-surface-1/90 px-3.5 py-2 text-fg-muted hover:text-white hover:border-line-strong hover:bg-surface-2 transition-all duration-200"
@@ -192,15 +192,15 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               Store ↗
             </a>
             <a
-              href="https://forum.privatesolution.org"
+              href={SUPPORT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-1 rounded-xl border border-line bg-surface-1/90 px-3.5 py-2 text-fg-muted hover:text-white hover:border-line-strong hover:bg-surface-2 transition-all duration-200"
             >
-              Forum ↗
+              Support ↗
             </a>
             <a
-              href="https://discord.gg/XFEkf2kV26"
+              href={DISCORD_INVITE}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-white font-bold hover:bg-accent-bright transition-all duration-200 shadow-[0_0_15px_rgba(45,156,245,0.35)] hover:shadow-[0_0_22px_rgba(45,156,245,0.55)] hover:-translate-y-0.5"
@@ -306,13 +306,13 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             <a href="https://privatesolution.org" className="hover:text-white transition-colors">
               Main Site
             </a>
-            <a href="https://forum.privatesolution.org" className="hover:text-white transition-colors">
-              Forum
+            <a href={SUPPORT_URL} className="hover:text-white transition-colors">
+              Support
             </a>
-            <a href="https://privatesolution.org/#products" className="hover:text-white transition-colors">
+            <a href="https://privatesolution.org/software/" className="hover:text-white transition-colors">
               Store
             </a>
-            <a href="https://discord.gg/XFEkf2kV26" className="text-accent hover:text-accent-bright hover:underline transition-colors">
+            <a href={DISCORD_INVITE} className="text-accent hover:text-accent-bright hover:underline transition-colors">
               Support Discord
             </a>
           </div>

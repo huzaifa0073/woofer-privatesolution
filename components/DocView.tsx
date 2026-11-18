@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { DISCORD_INVITE } from '@/lib/docs-data'
 
 export type DocLink = {
   type: 'link'
@@ -452,15 +453,11 @@ export default function DocView({ doc }: { doc: DocItem }) {
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
                       <div className="space-y-2">
-                        <div className="inline-flex items-center gap-2 rounded-full bg-accent/20 border border-accent/30 px-3 py-1 text-2xs font-extrabold uppercase tracking-wider text-accent-bright">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-                          Live Staff Assistance 24/7
-                        </div>
                         <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                          Need Immediate Setup Help?
+                          Private Solutions support
                         </h4>
                         <p className="text-sm sm:text-base text-slate-300 max-w-lg leading-relaxed">
-                          Our dedicated technicians and community members are online right now to guide you step-by-step through BIOS, RAID, or spoofing.
+                          Have your order number ready. Our support page shows where to open a private ticket.
                         </p>
                       </div>
 
@@ -570,13 +567,13 @@ export default function DocView({ doc }: { doc: DocItem }) {
             <div className="rounded-2xl border border-accent/30 bg-gradient-to-b from-accent/10 to-surface-1 p-5 shadow-lg">
               <div className="flex items-center gap-2 text-xs font-bold text-white mb-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                24/7 Setup Assistance
+                Order support
               </div>
               <p className="text-xs text-fg-muted leading-relaxed mb-4">
-                Encountering an issue or have a question about your motherboard?
+                Open a private ticket with the order number from your confirmation email.
               </p>
               <a
-                href="https://discord.gg/XFEkf2kV26"
+                href={DISCORD_INVITE}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-accent-bright transition-colors"

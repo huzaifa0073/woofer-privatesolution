@@ -1,9 +1,13 @@
+export const DISCORD_INVITE = 'https://discord.gg/Ff4xa5hFCU'
+export const SUPPORT_URL = 'https://privatesolution.org/support/'
+const ACCOUNT_URL = 'https://privatesolution.org/account/'
+
 export const DOCS = [
   {
     "slug": "welcome",
     "title": "Welcome & Getting Started",
     "category": "Getting Started",
-    "description": "A quick orientation before you begin. Read this in full to ensure everything is set up correctly the first time.",
+    "description": "Find your booking confirmation, check for an issued key, or get help with your order.",
     "prev": null,
     "next": {
       "label": "Windows Reinstallation",
@@ -13,18 +17,23 @@ export const DOCS = [
       {
         "type": "callout",
         "variant": "info",
-        "title": "Important Orientation",
-        "text": "You are just a few steps away from ensuring maximum privacy and clean system isolation. To make sure the process is successful, follow every step in this guide exactly as written, and in the correct order. Skipping, reordering, or ignoring steps may cause the setup to fail."
+        "title": "After you pay",
+        "text": "Your payment confirmation includes your order number. Open a Private Solutions support ticket with that number so the team can arrange your service appointment."
       },
       {
         "type": "section",
-        "title": "Support and Assistance",
-        "body": "If you become stuck, encounter an error, or are unsure about any step, join our Discord community immediately. Our team and community members will guide you through the process to ensure everything is completed correctly."
+        "title": "Where to find your key",
+        "body": "When the team issues a key for your order, you receive a separate email with the key and guide links. If the order is linked to your store account, you can also find it under My keys."
+      },
+      {
+        "type": "link",
+        "href": ACCOUNT_URL,
+        "label": "Open My keys"
       },
       {
         "type": "discord-banner",
-        "url": "https://discord.gg/XFEkf2kV26",
-        "label": "Join Private Solutions Discord"
+        "url": SUPPORT_URL,
+        "label": "Get help with your order"
       }
     ]
   },
@@ -263,7 +272,7 @@ export const DOCS = [
       "slug": "safety"
     },
     "next": {
-      "label": "Download Loader",
+      "label": "Loader availability",
       "slug": "download-loader"
     },
     "content": [
@@ -288,9 +297,9 @@ export const DOCS = [
   },
   {
     "slug": "download-loader",
-    "title": "Download Loader",
+    "title": "Loader availability",
     "category": "Woofer Setup",
-    "description": "Prerequisites, Python environment setup, and loader download.",
+    "description": "Check download availability and get help with a Private Solutions order.",
     "prev": {
       "label": "VHD for Intel",
       "slug": "vhd-intel"
@@ -301,24 +310,20 @@ export const DOCS = [
     },
     "content": [
       {
+        "type": "callout",
+        "variant": "info",
+        "title": "Public download unavailable",
+        "text": "The previous download link has been retired. If you came here from a key email, open a Private Solutions support ticket and include your order number so the team can check your order."
+      },
+      {
         "type": "link",
-        "href": "https://transfer.it/t/M4RoMYwFgJxJ",
-        "label": "Download Loader"
+        "href": SUPPORT_URL,
+        "label": "Contact Private Solutions support"
       },
       {
-        "type": "steps",
-        "title": "Prerequisites",
-        "items": [
-          "Download and install Python 3.11 or later from python.org.",
-          "Ensure you check the box \"Add python.exe to PATH\" during installation.",
-          "Download the latest Private Solutions Loader using the Download Loader button above.",
-          "Extract the archive to a clean folder on your desktop."
-        ]
-      },
-      {
-        "type": "image",
-        "src": "/guide/add_path.png",
-        "alt": "Python Add to PATH checkbox"
+        "type": "section",
+        "title": "Account requirements",
+        "body": "Orders using JOONY software require a JOONY account linked to Discord. Private Solutions can help with your purchase and booking through your support ticket."
       }
     ]
   },
@@ -328,7 +333,7 @@ export const DOCS = [
     "category": "Woofer Setup",
     "description": "Step-by-step execution of the woofer spoofer tool to modify hardware identifiers.",
     "prev": {
-      "label": "Download Loader",
+      "label": "Loader availability",
       "slug": "download-loader"
     },
     "next": {
